@@ -1,0 +1,8 @@
+.deactiverow {
+    background-color: rgb(247, 51, 51);
+    color: white
+}
+
+select {
+    width: 100%;
+}

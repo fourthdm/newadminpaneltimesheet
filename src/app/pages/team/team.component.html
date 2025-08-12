@@ -1,0 +1,96 @@
+<div class="container-fluid">
+    <br><br><br>
+    <div class="text-center">
+        <h2>All Teams </h2>
+    </div><br>
+    <br>
+    <div class="text-end">
+        <!-- Button trigger modal for Add Team -->
+        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Add New Team <i class="fa-solid fa-plus"></i>
+        </button>
+    </div>
+    <br>
+    <br>
+
+    <div class="container">
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead class="table-primary">
+                    <tr>
+                        <th scope="col" style="width: 10%;"> <b>Sr.No. </b> </th>
+                        <th scope="col"> <b>Team Name </b> </th>
+                        <th scope="col"> <b>Edit </b> </th>
+                        <th scope="col"> <b>Delete </b> </th>
+                        <!-- <th scope="col" *ngIf="isAdmin"> <b>Edit Admin</b> </th>
+                        <th scope="col" *ngIsf="isAdmin"> <b>Delete Admin</b> </th> -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let t of Allteams , let i =index">
+                        <td>{{i+1}}</td>
+                        <td><a [routerLink]="['/Home/Viewteams',t.team_id]">{{t.TeamName}}</a></td>
+                        <td> <button type="button" class="btn btn-info" (click)="EditTeam(t.team_id)"
+                                data-bs-toggle="modal" data-bs-target="#exampleModal1">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </button></td>
+                        <td><button class="btn btn-danger" type="button" (click)="DeleteTeam(t['team_id'])"
+                                class="btn btn-danger"><i class="fa-regular fa-trash-can"></i></button></td>
+                    </tr>
+                    <div class="text-center">
+                        <!-- <pagination-controls (pageChange)=" pro = $event "></pagination-controls> -->
+                    </div>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Modal Add Team -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Add New Team</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="TeamAddform" (submit)="AddTeam()">
+                        <div class="col-md-12">
+                            <label for="TeamName">Team Name:</label>
+                            <input type="text" name="TeamName" class="form-control" id="TeamName"
+                                formControlName="TeamName" value="" placeholder="Enter Team Name" required>
+                        </div>
+                        <br><br>
+                        <button type="submit" class="btn btn-success">Save</button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Add Team -->
+    <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Update Team</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="EditFormteam" (submit)="UpdatedTeam()">
+                        <div class="col-md-12">
+                            <label for="TeamName">Team Name:</label>
+                            <input type="text" name="TeamName" class="form-control" id="TeamName"
+                                formControlName="TeamName" value="" placeholder="Enter Team Name" required>
+                        </div>
+                        <br><br>
+                        <button type="submit" class="btn btn-success">Update</button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>

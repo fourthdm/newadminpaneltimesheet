@@ -1,0 +1,142 @@
+<div class="container-fluid"><br><br><br>
+    <div class="text-center">
+        <h2>All Spoke Person Data</h2>
+    </div>
+    <br>
+    <div class="text-end">
+        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            ADD New Spoke Person <i class="fa-regular fa-plus"></i>
+        </button>
+    </div>
+
+    <br><br>
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead class="table-primary">
+                <tr>
+                    <th scope="col" style="width: 0px;"> <b>Sr.No. </b> </th>
+                    <th scope="col"> <b>Sp code </b> </th>
+                    <th scope="col"> <b>Spoke Person Name</b> </th>
+                    <th scope="col"> <b>Team Name</b> </th>
+                    <th scope="col"> <b>Status </b> </th>
+                    <th scope="col"> <b>Edit Sp</b> </th>
+                    <th scope="col"> <b>Delete Sp</b> </th>
+                    <!-- <th scope="col" *ngIf="isAdmin"> <b>Edit Admin</b> </th>
+                <th scope="col" *ngIf="isAdmin"> <b>Delete Admin</b> </th> -->
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let c of Allspokeperson | paginate:{itemsPerPage :10 , currentPage :pro} , let i =index"
+                    [ngClass]="{'deactive-row':c.status === 'Deactive'}">
+                    <td>{{i+1}}</td>
+                    <td>{{c.sp_code}}</td>
+                    <td>{{c.spoke_person_name}}</td>
+                    <td>{{c.team}}</td>
+                    <td>{{c.status}}</td>
+                    <td> <button type="button" class="btn btn-info" (click)="editspokeperson(c.spoke_person_id)"
+                            data-bs-toggle="modal" data-bs-target="#exampleModal2">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </button></td>
+                    <td><button class="btn btn-danger" type="button" (click)="delete(c['spoke_person_id'])"
+                            class="btn btn-danger"><i class="fa-regular fa-trash-can"></i></button></td>
+                </tr>
+                <div class="text-center">
+                    <pagination-controls (pageChange)=" pro = $event "></pagination-controls>
+                </div>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal For ADD Admin -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">ADD New Spoke Person</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="Addspokepersonform" (submit)="AddSpokeperson()">
+
+                        <div class="col-md-12">
+                            <label for="sp_code">Sp Code:</label>
+                            <input type="text" name="sp_code" class="form-control" id="sp_code"
+                                formControlName="sp_code" value="" placeholder="Enter Sp code" required>
+                        </div>
+                        <br>
+                        <div class="col-md-12">
+                            <label for="spoke_person_name">Spoke Person Name:</label>
+                            <input type="text" name="spoke_person_name" class="form-control" id="spoke_person_name"
+                                formControlName="spoke_person_name" value="" placeholder="Enter Spoke person name"
+                                required>
+                        </div>
+                        <br>
+                        <div>
+                            <label for="team">Select Team:</label>
+                            <select formControlName="team">
+                                <option *ngFor="let team of Allteam" [value]="team.TeamName">{{ team.TeamName }}
+                                </option>
+                            </select>
+                        </div>
+
+                        <br>
+                        <div class="col-md-12">
+                            <label for="status">Status :</label>
+                            <select formControlName="status" id="status" required>
+                                <option value="Active">Active</option>
+                                <option value="Deactive">Deactive</option>
+                            </select>
+                        </div>
+
+                        <br>
+                        <button type="submit" class="btn btn-success">ADD Spoke Person</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+
+    <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Spoke Person Data </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="Editspokepersonform" (submit)="updatespokeperson()">
+                        <div class="col-md-12">
+                            <label for="sp_code">Sp code:</label>
+                            <input type="text" name="sp_code" class="form-control" id="sp_code"
+                                formControlName="sp_code" value="" placeholder="Enter Username" required>
+                        </div>
+                        <br>
+                        <div class="col-md-12">
+                            <label for="spoke_person_name">Spoke Person Name:</label>
+                            <input type="text" name="spoke_person_name" class="form-control" id="spoke_person_name"
+                                formControlName="spoke_person_name" value="" placeholder="Enter Username" required>
+                        </div>
+                        <br>
+                        <div>
+                            <label for="team">Select Team:</label>
+                            <select formControlName="team">
+                                <option *ngFor="let team of Allteam" [value]="team.TeamName">{{ team.TeamName }}
+                                </option>
+                            </select>
+                        </div>
+                        <br>
+                        <div class="col-md-12">
+                            <label for="status">Status:</label>
+                            <select formControlName="status" id="status" required>
+                                <option value="Active">Active</option>
+                                <option value="Deactive">Deactive</option>
+                            </select>
+                        </div>
+                        <br> <button type="submit" class="btn btn-success">Update Spoke person</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

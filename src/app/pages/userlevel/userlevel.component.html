@@ -1,0 +1,98 @@
+<div class="container-fluid"> <br><br><br>
+    <div class="text-center">
+        <h2> All Role</h2>
+    </div>
+    <br>
+
+
+    <div class="text-end">
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Add New Role
+        </button>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Add New Role</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="Adduserlevelform" (submit)="Adduserlevel()">
+                        <div class="col-md-12">
+                            <label for="name">User Level </label>
+                            <input type="text" name="name" class="form-control" id="name" formControlName="name"
+                                value="" placeholder="Enter Name" required>
+                        </div>
+                        <br>
+                        <button type="submit" class="btn btn-success">Add Userlevel</button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <br>
+
+    <div class="container">
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead class="table-primary">
+                    <tr>
+                        <th scope="col" style="width: 10%;"> <b>Sr.No. </b> </th>
+                        <th scope="col"> <b>Name </b> </th>
+                        <th scope="col"> <b>Edit </b> </th>
+                        <th scope="col"> <b>Delete </b> </th>
+                        <!-- <th scope="col" *ngIf="isAdmin"> <b>Edit Admin</b> </th>
+                    <th scope="col" *ngIf="isAdmin"> <b>Delete Admin</b> </th> -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let u of userlevel | paginate: {itemsPerPage: 10, currentPage: pro} , let i =index">
+                        <td>{{i+1}}</td>
+                        <td>{{u.name}}</td>
+                        <td> <button type="button" class="btn btn-info" (click)="edituserlevel(u.userlevel_id)"
+                                data-bs-toggle="modal" data-bs-target="#exampleModaluser">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </button></td>
+                        <td><button class="btn btn-danger" type="button" (click)="Deleteuserlevel(u['userlevel_id'])"
+                                class="btn btn-danger"><i class="fa-regular fa-trash-can"></i></button></td>
+                    </tr>
+                    <div class="text-center">
+                        <pagination-controls (pageChange)=" pro = $event "></pagination-controls>
+                    </div>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <!-- Modal for Edit Category -->
+    <div class="modal fade" id="exampleModaluser" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Roles Data </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="edituserlevelform" (submit)="Updateuserlevel()">
+
+                        <div class="col-md-12">
+                            <label for="name">User Level </label>
+                            <input type="text" name="name" class="form-control" id="name" formControlName="name"
+                                value="" placeholder="Enter Name" required>
+                        </div>
+                        <br>
+                        <button class="btn btn-success" type="submit">Update Userlevel</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br><br>
+</div>

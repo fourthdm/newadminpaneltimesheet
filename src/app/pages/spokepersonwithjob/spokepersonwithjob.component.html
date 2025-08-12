@@ -1,0 +1,220 @@
+<div class="container-fluid">
+    <div class="text-center">
+        <h2>All Spoke Person Job Type Data</h2>
+    </div>
+    <br>
+    <div class="text-end">
+        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal5">
+            ADD New Spoke Person Job Type <i class="fa-regular fa-plus"></i>
+        </button>
+    </div>
+    <br>
+    <!-- <div class="">
+        <p><b>Find Spoke Person Emp By a Role</b></p>
+        <label for="spoke_person_id">Select spoke_person_id<br>
+            <select name="spoke_person_id" id="spoke_person_id" [(ngModel)]="spoke_person_id" class="form-select"
+                placeholder="Select role" aria-label="Multiple select example">
+                <option *ngFor="let b of Allspokeperson " [value]="b.spoke_person_id">
+                    {{b.spoke_person_name}}</option>
+            </select>
+        </label>
+        <button style="margin-left: 3%;" class="btn btn-success" (click)="BySpokeperson()">Search</button>
+    </div> -->
+
+    <br><br>
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead class="table-primary">
+                <tr>
+                    <th scope="col" style="width: 0px;"> <b>Sr.No. </b> </th>
+                    <th scope="col"> <b>Spoke Person Name </b> </th>
+                    <th scope="col"> <b>Job Type Name </b> </th>
+                    <th scope="col"> <b>Job Sub Type Name</b> </th>
+                    <th scope="col"> <b>Drafting Hrs</b> </th>
+                    <th scope="col"> <b>Drafting Min</b> </th>
+                    <th scope="col"> <b>Qc Hrs</b> </th>
+                    <th scope="col"> <b>Qc Min</b> </th>
+                    <th scope="col"> <b>Total Min</b> </th>
+                    <th scope="col"> <b>Edit Sp</b> </th>
+                    <th scope="col"> <b>Delete Sp</b> </th>
+                    <!-- <th scope="col" *ngIf="isAdmin"> <b>Edit Admin</b> </th>
+                    <th scope="col" *ngIf="isAdmin"> <b>Delete Admin</b> </th> -->
+                </tr>
+            </thead>
+            <tbody>
+                <tr
+                    *ngFor="let c of ALLSpokePersonjobtype | paginate:{itemsPerPage :10 , currentPage :pro} , let i =index">
+                    <td>{{i+1}}</td>
+                    <td>{{c.spoke_person_name}}</td>
+                    <td>{{c.job_type_name}}</td>
+                    <td>{{c.job_sub_type_name}}</td>
+                    <td>{{c.drafting_hrs}}</td>
+                    <td>{{c.drafting_min}}</td>
+                    <td>{{c.qc_hrs}}</td>
+                    <td>{{c.qc_min}}</td>
+                    <td>{{c.tot_min}}</td>
+                    <td> <button type="button" class="btn btn-info" (click)="jobtypeEdit(c.spoke_person_job_type_id)"
+                            data-bs-toggle="modal" data-bs-target="#exampleModal6">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </button></td>
+                    <td><button class="btn btn-danger" type="button"
+                            (click)="DeleteJobtypespokeperson(c['spoke_person_job_type_id'])" class="btn btn-danger"><i
+                                class="fa-regular fa-trash-can"></i></button></td>
+                </tr>
+                <div class="text-center">
+                    <pagination-controls (pageChange)=" pro = $event "></pagination-controls>
+                </div>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal For ADD Admin -->
+    <div class="modal fade" id="exampleModal5" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">ADD New Spoke Person</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="AddformspokepersonJobType" (submit)="AJobtypespokeperson()">
+
+                        <div class="col-md-12">
+                            <label for="spoke_person_id">Spoke Person_id:</label>
+                            <select formControlName="spoke_person_id">
+                                <option *ngFor="let emp of Allspokeperson" [value]="emp.spoke_person_id">{{
+                                    emp.spoke_person_name }}
+                                </option>
+                            </select>
+                            <!-- <input type="text" name="spoke_person_id" class="form-control" id="spoke_person_id"
+                                formControlName="spoke_person_id" value="" placeholder="Enter Spoke Person_id" required> -->
+                        </div>
+                        <br>
+                        <div class="col-md-12">
+                            <label for="job_type_id">Job Type_id:</label>
+                            <select formControlName="job_type_id">
+                                <option *ngFor="let j of Alljobtype" [value]="j.job_type_id">
+                                    {{j.job_type_name}}
+                                </option>
+                            </select>
+                            <!-- <input type="text" name="job_type_id" class="form-control" id="job_type_id"
+                                formControlName="job_type_id" value="" placeholder="Enter Job Type_id" required> -->
+                        </div>
+                        <br>
+                        <div class="col-md-12">
+                            <label for="job_sub_type_id">Job Sub Type_id</label>
+                            <select formControlName="job_sub_type_id">
+                                <option *ngFor="let sj of Alljobsubtype" [value]="sj.job_sub_type_id">
+                                    {{sj.job_sub_type_name}}
+                                </option>
+                            </select>
+                            <!-- <input type="text" name="job_sub_type_id" class="form-control" id="job_sub_type_id"
+                                formControlName="job_sub_type_id" value="" placeholder="Enter Job Sub Type_id "
+                                required> -->
+                        </div>
+                        <br>
+                        <div class="col-md-12">
+                            <label for="drafting_hrs">Drafting Hrs:</label>
+                            <input type="text" name="drafting_hrs" class="form-control" id="drafting_hrs"
+                                formControlName="drafting_hrs" value="" placeholder="Enter Drafting Hrs " required>
+                        </div>
+                        <br>
+                        <div class="col-md-12">
+                            <label for="drafting_min">Drafting Min:</label>
+                            <input type="text" name="drafting_min" class="form-control" id="drafting_min"
+                                formControlName="drafting_min" value="" placeholder="Enter Drafting Min " required>
+                        </div>
+                        <br>
+                        <div class="col-md-12">
+                            <label for="qc_hrs">QC Hrs:</label>
+                            <input type="text" name="qc_hrs" class="form-control" id="qc_hrs" formControlName="qc_hrs"
+                                value="" placeholder="Enter Qc Hrs " required>
+                        </div>
+                        <br>
+                        <div class="col-md-12">
+                            <label for="qc_min">Qc Min:</label>
+                            <input type="text" name="qc_min" class="form-control" id="qc_min" formControlName="qc_min"
+                                value="" placeholder="Enter QC Min " required>
+                        </div>
+                        <br>
+                        <div class="col-md-12">
+                            <label for="tot_min">Total Min:</label>
+                            <input type="text" name="tot_min" class="form-control" id="tot_min"
+                                formControlName="tot_min" value="" placeholder="Enter Total Min " required>
+                        </div>
+                        <br>
+
+                        <button type="submit" class="btn btn-success">ADD Spoke Person</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+
+    <!-- Modal for Edit Category -->
+    <div class="modal fade" id="exampleModal6" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Spoke Person Data </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="EditformspokepersonJobType" (submit)="UpdateJobtypespokeperson()">
+                        <div class="col-md-12">
+                            <label for="spoke_person_id">Spoke Person_id:</label>
+                            <input type="text" name="spoke_person_id" class="form-control" id="spoke_person_id"
+                                formControlName="spoke_person_id" value="" placeholder="Enter Spoke Person_id" required>
+                        </div>
+                        <br>
+                        <div class="col-md-12">
+                            <label for="job_type_id">Job Type_id:</label>
+                            <input type="text" name="job_type_id" class="form-control" id="job_type_id"
+                                formControlName="job_type_id" value="" placeholder="Enter Job Type_id" required>
+                        </div>
+                        <br>
+                        <div class="col-md-12">
+                            <label for="job_sub_type_id">Job Sub Type_id</label>
+                            <input type="text" name="job_sub_type_id" class="form-control" id="job_sub_type_id"
+                                formControlName="job_sub_type_id" value="" placeholder="Enter Job Sub Type_id "
+                                required>
+                        </div>
+                        <br>
+                        <div class="col-md-12">
+                            <label for="drafting_hrs">Drafting Hrs:</label>
+                            <input type="text" name="drafting_hrs" class="form-control" id="drafting_hrs"
+                                formControlName="drafting_hrs" value="" placeholder="Enter Drafting Hrs " required>
+                        </div>
+                        <br>
+                        <div class="col-md-12">
+                            <label for="drafting_min">Drafting Min:</label>
+                            <input type="text" name="drafting_min" class="form-control" id="drafting_min"
+                                formControlName="drafting_min" value="" placeholder="Enter Drafting Min " required>
+                        </div>
+                        <br>
+                        <div class="col-md-12">
+                            <label for="qc_hrs">QC Hrs:</label>
+                            <input type="text" name="qc_hrs" class="form-control" id="qc_hrs" formControlName="qc_hrs"
+                                value="" placeholder="Enter Qc Hrs " required>
+                        </div>
+                        <br>
+                        <div class="col-md-12">
+                            <label for="qc_min">Qc Min:</label>
+                            <input type="text" name="qc_min" class="form-control" id="qc_min" formControlName="qc_min"
+                                value="" placeholder="Enter QC Min " required>
+                        </div>
+                        <br>
+                        <div class="col-md-12">
+                            <label for="tot_min">Total Min:</label>
+                            <input type="text" name="tot_min" class="form-control" id="tot_min"
+                                formControlName="tot_min" value="" placeholder="Enter Total Min " required>
+                        </div>
+                        <br>
+                        <button type="submit" class="btn btn-success">Update Spoke Person Job Type</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

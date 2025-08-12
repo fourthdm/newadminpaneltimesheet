@@ -1,0 +1,290 @@
+<div class="container-fluid">
+    <br><br><br>
+    <div class="text-center">
+        <h2>All Checklist Data</h2>
+    </div>
+    <br>
+    <div class="text-end">
+        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            ADD New Checklist <i class="fa-regular fa-plus"></i>
+        </button>
+    </div>
+
+    <br><br>
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead class="table-primary">
+                <tr>
+                    <th scope="col" style="width: 0px;"> <b>Sr.No. </b> </th>
+                    <th scope="col"> <b>Checklist Name </b> </th>
+                    <th scope="col"> <b>Edit </b> </th>
+                    <th scope="col"> <b>Delete </b> </th>
+                    <!-- <th scope="col" *ngIf="isAdmin"> <b>Edit Admin</b> </th>
+                    <th scope="col" *ngIf="isAdmin"> <b>Delete Admin</b> </th> -->
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let c of Allchecklist | paginate: { itemsPerPage: 10, currentPage: pro } , let i =index">
+                    <td>{{i+1}}</td>
+                    <td>{{c.checklist_name}}</td>
+                    <td> <button type="button" class="btn btn-info" (click)="editchekclist(c.checklist_id)"
+                            data-bs-toggle="modal" data-bs-target="#exampleModal2">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </button></td>
+                    <td><button class="btn btn-danger" type="button" (click)="delete(c['checklist_id'])"
+                            class="btn btn-danger"><i class="fa-regular fa-trash-can"></i></button></td>
+                </tr>
+                <div class="text-center">
+                    <pagination-controls (pageChange)=" pro = $event "></pagination-controls>
+                </div>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal For ADD Admin -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">ADD New Checklist</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="Addchecklistform" (submit)="Addchecklist()">
+
+                        <div class="col-md-12">
+                            <label for="checklist_name">Checklist Name:</label>
+                            <input type="text" name="checklist_name" class="form-control" id="checklist_name"
+                                formControlName="checklist_name" value="" placeholder="Enter Username" required>
+                        </div>
+                        <br>
+                        <button type="submit" class="btn btn-success">ADD CheckList</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+
+    <!-- Modal for Edit Category -->
+    <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">EDIT User </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="Updatechecklistform" (submit)="Updatechecklist()">
+                        <div class="col-md-12">
+                            <label for="checklist_name">Checklist Name:</label>
+                            <input type="text" name="checklist_name" class="form-control" id="checklist_name"
+                                formControlName="checklist_name" value="" placeholder="Enter Username" required>
+                        </div>
+                        <br>
+                        <button type="submit" class="btn btn-success">Update Checklist</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container-fluid">
+    <br>
+    <div class="text-center">
+        <h2>All Job Checklist Data</h2>
+    </div>
+    <br>
+    <div class="text-end">
+        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal5">
+            ADD New Job Checklist <i class="fa-regular fa-plus"></i>
+        </button>
+    </div>
+
+    <br><br>
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead class="table-primary">
+                <tr>
+                    <th scope="col"> <b>Sr.No. </b> </th>
+                    <th scope="col"> <b>Employee Name </b> </th>
+                    <th scope="col"> <b>Job Id </b> </th>
+                    <th scope="col"> <b>Checklist Id </b> </th>
+                    <th scope="col"> <b>Checklist Val </b> </th>
+                    <th scope="col"> <b>Checklist Total Val </b> </th>
+                    <th scope="col"> <b>Checklist Comment </b> </th>
+                    <th scope="col"> <b>Date </b> </th>
+                    <th scope="col"> <b>Edit </b> </th>
+                    <th scope="col"> <b>Delete </b> </th>
+                    <!-- <th scope="col" *ngIf="isAdmin"> <b>Edit Admin</b> </th>
+                    <th scope="col" *ngIf="isAdmin"> <b>Delete Admin</b> </th> -->
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let c of Alljobchecklist , let i = index">
+                    <td>{{i+1}}</td>
+                    <td>{{c.emp_name}}</td>
+                    <td>{{c.job_id}}</td>
+                    <td>{{c.checklist_id}}</td>
+                    <td>{{c.checklist_val}}</td>
+                    <td>{{c.checklist_total_val}} %</td>
+                    <td>{{c.checklist_comment}}</td>
+                    <td>{{c.date | date}}</td>
+                    <td> <button type="button" class="btn btn-info" (click)="editJobChecklist(c.job_checklist_id)"
+                            data-bs-toggle="modal" data-bs-target="#exampleModal6">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </button></td>
+                    <td><button class="btn btn-danger" type="button" (click)="DeleteJobchecklist(c['job_checklist_id'])"
+                            class="btn btn-danger"><i class="fa-regular fa-trash-can"></i></button></td>
+                </tr>
+                <div class="text-center">
+                    <!-- <pagination-controls (pageChange)=" pro = $event "></pagination-controls> -->
+                </div>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal For ADD Admin -->
+    <div class="modal fade" id="exampleModal5" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">ADD New Job Checklist </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="jobchecklistaddform" (submit)="Addjobchecklist()">
+                        <div class="col-md-12">
+                            <!-- <label for="engg_emp_id">Engineer Id:</label>
+                            <input type="text" name="engg_emp_id" class="form-control" id="engg_emp_id"
+                                formControlName="engg_emp_id" value="" placeholder="Enter Engineer Id" required> -->
+                            <label for="engg_emp_id">Select Employee:</label>
+                            <select formControlName="engg_emp_id">
+                                <option *ngFor="let emp of Alleng" [value]="emp.engg_emp_id">{{ emp.emp_name }}
+                                </option>
+                            </select>
+                        </div>
+
+                        <br>
+                        <div class="col-md-12">
+                            <!-- <label for="job_id">Job Id:</label>
+                            <input type="text" name="job_id" class="form-control" id="job_id" formControlName="job_id"
+                                value="" placeholder="Enter Job Id" required> -->
+
+                            <label for="job_id">Select Job Id:</label>
+                            <select formControlName="job_id">
+                                <option *ngFor="let emp of Alljobs" [value]="emp.job_id">{{
+                                    emp.job_no }}
+                                </option>
+                            </select>
+                        </div>
+
+                        <br>
+                        <div class="col-md-12">
+                            <!-- <label for="checklist_id">Checklist Id:</label>
+                            <input type="text" name="checklist_id" class="form-control" id="checklist_id"
+                                formControlName="checklist_id" value="" placeholder="Enter Job Id" required> -->
+                            <label for="checklist_id">Select Checklist Id:</label>
+                            <select formControlName="checklist_id">
+                                <option *ngFor="let emp of Allchecklist" [value]="emp.checklist_id">{{
+                                    emp.checklist_name }}
+                                </option>
+                            </select>
+                        </div>
+                        <br>
+
+                        <div class="col-md-12">
+                            <label for="checklist_val">Checklist Value:</label>
+                            <input type="text" name="checklist_val" class="form-control" id="checklist_val"
+                                formControlName="checklist_val" value="" placeholder="Enter Checklist Val" required>
+                        </div>
+                        <br>
+
+                        <div class="col-md-12">
+                            <label for="checklist_comment">Checklist Comment</label>
+                            <input type="text" name="checklist_comment" class="form-control" id="checklist_comment"
+                                formControlName="checklist_comment" value="" placeholder="Enter Checklist Comment"
+                                required>
+                        </div>
+                        <br>
+                        <button type="submit" class="btn btn-success">ADD Job Checklist</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+
+    <!-- Modal for Edit Category -->
+    <div class="modal fade" id="exampleModal6" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+        *ngFor="let c of Alljobchecklist, let i = index">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">EDIT JobChecklist </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="Editformjobchecklist" (submit)="UpdateJobchecklist()">
+                        <div class="col-md-12">
+                            <!-- <label for="engg_emp_id">Engineer Id:</label>
+                            <input type="text" name="engg_emp_id" class="form-control" id="engg_emp_id"
+                                formControlName="engg_emp_id" value="" placeholder="Enter Engineer Id" required> -->
+
+                            <label for="engg_emp_id">Select Employee:</label>
+                            <select formControlName="engg_emp_id">
+                                <option *ngFor="let emp of Alleng" [value]="emp.emp_id">{{ emp.emp_name }}
+                                </option>
+                            </select>
+                        </div>
+                        <br>
+                        <div class="col-md-12">
+                            <!-- <label for="job_id">Job Id:</label>
+                            <input type="text" name="job_id" class="form-control" id="job_id" formControlName="job_id"
+                                value="" placeholder="Enter Job Id" required> -->
+
+                            <label for="job_id">Select Job Id:</label>
+                            <select formControlName="job_id">
+                                <option *ngFor="let emp of Alljobs" [value]="emp.job_id">{{
+                                    emp.job_no }}
+                                </option>
+                            </select>
+                        </div>
+                        <br>
+                        <br>
+                        <div class="col-md-12">
+                            <!-- <label for="checklist_id">Checklist Id:</label>
+                            <input type="text" name="checklist_id" class="form-control" id="checklist_id"
+                                formControlName="checklist_id" value="" placeholder="Enter Job Id" required> -->
+                            <label for="checklist_id">Select Checklist Id:</label>
+                            <select formControlName="checklist_id">
+                                <option *ngFor="let emp of Allchecklist" [value]="emp.checklist_id">{{
+                                    emp.checklist_name }}
+                                </option>
+                            </select>
+                        </div>
+                        <br>
+                        <br>
+                        <div class="col-md-12">
+                            <label for="checklist_val">Checklist Value:</label>
+                            <input type="text" name="checklist_val" class="form-control" id="checklist_val"
+                                formControlName="checklist_val" value="" placeholder="Enter Checklist Val" required>
+                        </div>
+                        <br>
+                        <br>
+                        <div class="col-md-12">
+                            <label for="checklist_comment">Checklist Comment</label>
+                            <input type="text" name="checklist_comment" class="form-control" id="checklist_comment"
+                                formControlName="checklist_comment" value="" placeholder="Enter Checklist Comment"
+                                required>
+                        </div>
+                        <br>
+                        <button type="submit" class="btn btn-success">Update Job Checklist</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

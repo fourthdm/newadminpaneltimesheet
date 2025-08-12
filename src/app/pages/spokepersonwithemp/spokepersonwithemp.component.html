@@ -1,0 +1,191 @@
+<div class="container-fluid">
+    <div class="text-center">
+        <h2>Spoke Person With Employee</h2>
+    </div>
+
+    <br>
+    <div class="text-end">
+        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal3">
+            ADD New Spoke Person Emp <i class="fa-regular fa-plus"></i>
+        </button>
+    </div> <br><br>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="">
+                <p><b>Find SpokePerson With Employee</b></p>
+                <label for="emp_id">Select Name<br>
+                    <select name="emp_id" id="emp_id" [(ngModel)]="emp_id" class="form-select"
+                        placeholder="Select emp_id" aria-label="Multiple select example">
+
+                        <option *ngFor="let b of AllEmployee " [value]="b.emp_id">
+                            {{b.emp_name}}</option>
+                    </select>
+                </label>
+
+                <button style="margin-left: 3%;" class="btn btn-success" (click)="findbyempid()">Search</button>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="">
+                <p><b>Find Spoke Person Emp By a Role</b></p>
+                <label for="role">Select Role<br>
+                    <select name="role" id="role" [(ngModel)]="role" class="form-select" placeholder="Select role"
+                        aria-label="Multiple select example">
+
+                        <option *ngFor="let b of AllSpokePersonEmp " [value]="b.role">
+                            {{b.role}}</option>
+                    </select>
+                </label>
+
+                <button style="margin-left: 3%;" class="btn btn-success" (click)="findbyrole()">Search</button>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <p><b>Find SpokePerson Emp By a Date</b></p>
+            <div class="">
+                <input type="date" [(ngModel)]="added_date" value="date |date "> <button style="margin-left: 3%;"
+                    class="btn btn-success" (click)="findbydate()">Search</button>
+            </div>
+        </div>
+    </div>
+    <br><br>
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead class="table-primary">
+                <tr>
+                    <th scope="col" style="width: 0px;"> <b>Sr.No. </b> </th>
+                    <th scope="col"> <b>Spoke Person Name </b> </th>
+                    <th scope="col"> <b>Employee Name </b> </th>
+                    <th scope="col"> <b>Role</b> </th>
+                    <th scope="col"> <b>added_date</b> </th>
+                    <th scope="col"> <b>Added_time</b> </th>
+                    <th scope="col"> <b>Edit Sp</b> </th>
+                    <th scope="col"> <b>Delete Sp</b> </th>
+                    <!-- <th scope="col" *ngIf="isAdmin"> <b>Edit Admin</b> </th>
+                    <th scope="col" *ngIf="isAdmin"> <b>Delete Admin</b> </th> -->
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let Ae of AllSpokePersonEmp | paginate:{itemsPerPage :10 , currentPage :pro}, let i =index">
+                    <td>{{i+1}}</td>
+                    <td>{{Ae.spoke_person_name}}</td>
+                    <td>{{Ae.emp_name}}</td>
+                    <td>{{Ae.role}}</td>
+                    <td>{{Ae.added_date | date}}</td>
+                    <td>{{Ae.added_time}}</td>
+                    <td> <button type="button" class="btn btn-info" (click)="EditSPkoeEmp(Ae.spoke_person_emp_id)"
+                            data-bs-toggle="modal" data-bs-target="#exampleModal4">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </button></td>
+                    <td><button class="btn btn-danger" type="button" (click)="DeleteSpokeemp(Ae['spoke_person_emp_id'])"
+                            class="btn btn-danger"><i class="fa-regular fa-trash-can"></i></button></td>
+                </tr>
+                <div class="text-center">
+                    <pagination-controls (pageChange)=" pro = $event "></pagination-controls>
+                </div>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal For ADD Admin -->
+    <div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">ADD New Spoke Person Emp</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="spokepersonEmpAddform" (submit)="AddSpokePersonEmp()">
+
+                        <div class="col-md-12">
+                            <label for="spoke_person_id">Spoke Person Id:</label>
+
+                            <select formControlName="spoke_person_id">
+                                <option *ngFor="let emp of Allspokeperson" [value]="emp.spoke_person_id">{{
+                                    emp.spoke_person_name }}
+                                </option>
+                            </select>
+                            <!-- <input type="text" name="spoke_person_id" class="form-control" id="spoke_person_id"
+                                formControlName="spoke_person_id" value="" placeholder="Enter SpokePersn emp" required> -->
+                        </div>
+                        <br>
+                        <div class="col-md-12">
+                            <label for="emp_id">Employee Id :</label>
+                            <select formControlName="emp_id">
+                                <option *ngFor="let b of AllEmployee " [value]="b.emp_id">
+                                    {{b.emp_name}}</option>
+                            </select>
+                            <!-- <input type="text" name="emp_id" class="form-control" id="emp_id" formControlName="emp_id"
+                                value="" placeholder="Enter Employee emp_id" required> -->
+                        </div>
+                        <br>
+                        <div class="col-md-12">
+                            <label for="role">Employee Role:</label>
+                            <select formControlName="role">
+                                <option *ngFor="let u of Allusers">
+                                    {{u.name}}
+                                </option>
+                            </select>
+                            <!-- <input type="text" name="role" class="form-control" id="role" formControlName="role"
+                                value="" placeholder="Enter Emp role " required> -->
+                        </div>
+                        <br>
+
+                        <br>
+                        <button type="submit" class="btn btn-success">ADD Spoke Person Employee </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+
+    <!-- Modal for Edit Category -->
+    <div class="modal fade" id="exampleModal4" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Spoke Person Emp Data </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="spokepersonEmpEditform" (submit)="UpdateSpokeemp()">
+                        <div class="col-md-12">
+                            <label for="spoke_person_id">Spoke Person_id:</label>
+                            <select formControlName="spoke_person_id">
+                                <option *ngFor="let emp of Allspokeperson" [value]="emp.spoke_person_id">{{
+                                    emp.spoke_person_name }}
+                                </option>
+                            </select>
+                            <!-- <input type="text" name="spoke_person_id" class="form-control" id="spoke_person_id"
+                                formControlName="spoke_person_id" value="" placeholder="Enter SpokePersn emp" required> -->
+                        </div>
+                        <br>
+                        <div class="col-md-12">
+                            <label for="emp_id">Employee Emp_id :</label>
+                            <select formControlName="emp_id">
+                                <option *ngFor="let b of AllEmployee " [value]="b.emp_id">
+                                    {{b.emp_name}}</option>
+                            </select>
+                            <!-- <input type="text" name="emp_id" class="form-control" id="emp_id" formControlName="emp_id"
+                                value="" placeholder="Enter Employee emp_id" required> -->
+                        </div>
+                        <br>
+                        <div class="col-md-12">
+                            <label for="role">Employee role:</label>
+                            <input type="text" name="role" class="form-control" id="role" formControlName="role"
+                                value="" placeholder="Enter Emp role " required>
+                        </div>
+                        <br>
+                        <br>
+                        <button type="submit" class="btn btn-success">Update Spoke Person Emp</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br><br>
+</div>

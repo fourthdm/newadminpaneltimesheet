@@ -1,0 +1,20 @@
+*{
+    background-color: rgb(248, 241, 228);
+    /* background-color:white; */
+    color: black;
+}
+
+.table-bordered {
+    border: 1px solid black;
+}
+
+td {
+    border: 1px solid black;
+    width: 10% !important;
+    padding: 1.2%;
+    font-size: medium;
+    font-weight: 400;
+    background-color: rgb(248, 241, 228);
+    color: black;
+    /* padding-left: 1%; */
+}

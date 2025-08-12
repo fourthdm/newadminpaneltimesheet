@@ -1,0 +1,486 @@
+<div class="container-fluid">
+    <br><br><br>
+    <div class="text-center">
+        <h2>JOBS</h2>
+    </div>
+    <div class="text-end">
+        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            ADD New Job <i class="fa-regular fa-plus"></i>
+        </button>
+    </div>
+    <br><br>
+    <button (click)="exportexcel()">Download excelsheet</button>
+    <br>
+
+    <br>
+    <div class="">
+        <p><b>Find Job By a Employee Name</b></p>
+        <label for="emp_id">
+            <select name="emp_id" id="emp_id" [(ngModel)]="engg_emp_id" class="form-select" placeholder="Select emp_id"
+                aria-label="Multiple select example">
+                <option *ngFor="let b of Alleng " [value]="b.emp_id">
+                    {{b.emp_name}}</option>
+            </select>
+        </label>
+        <button style="margin-left: 3%;" class="btn btn-success" (click)="Getjobbyname()">Search</button>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-bordered" id="excel-table">
+            <thead class="table-primary">
+                <tr>
+                    <th><b>Job Id</b></th>
+                    <th scope="col"> <b>Date</b> </th>
+                    <th scope="col"> <b>Job No.</b> </th>
+                    <th scope="col"> <b>Order ID</b> </th>
+                    <th scope="col"> <b>Spoke person </b> </th>
+                    <th scope="col"> <b>Job Type</b> </th>
+                    <th scope="col"> <b>Job Sub Type</b> </th>
+                    <th scope="col"> <b>Create Time</b> </th>
+                    <th scope="col"> <b>Created By</b> </th>
+                    <th scope="col"> <b>Created By Admin Name</b> </th>
+                    <th scope="col"> <b>Edit</b> </th>
+                    <th scope="col"> <b>Delete</b> </th>
+                    <!-- <th scope="col" *ngIf="isAdmin"> <b>Edit Admin</b> </th>
+                    <th scope="col" *ngIf="isAdmin"> <b>Delete Admin</b> </th> -->
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let j of Alljobs , let i =index" [ngClass]="{'deletedjob' : j.status === 'Deleted'}">
+                    <td>{{j.job_id}}</td>
+                    <td>{{j.date_part | date }}</td>
+                    <td> <a [routerLink]="['/Home/Viewjobs', j.job_id]"> {{j.job_no}} </a></td>
+                    <td>{{j.order_id}}</td>
+                    <td>{{j.spoke_person_name}}</td>
+                    <td>{{j.job_type_name}}</td>
+                    <td>{{j.job_sub_type_name}}</td>
+                    <td>{{j.time_part}}</td>
+                    <td>{{j.created_by}}</td>
+                    <td>{{j.created_by_name}}</td>
+                    <td> <button type="button" class="btn btn-info" (click)="editjobs(j.job_id)" data-bs-toggle="modal"
+                            data-bs-target="#exampleModal2">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </button></td>
+                    <td><button class="btn btn-danger" type="button" (click)="Deletejobs(j['job_id'])"
+                            class="btn btn-danger"><i class="fa-regular fa-trash-can"></i></button></td>
+                </tr>
+                <div class="text-center">
+                    <!-- <pagination-controls (pageChange)=" pro = $event "></pagination-controls> -->
+                </div>
+            </tbody>
+        </table>
+    </div>
+
+
+    <br><br>
+    <!-- Modal For ADD Admin -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Add New Job </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="Addjobform" (submit)="Addjobs()">
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="job_no">Job No:</label>
+                                <input type="text" name="job_no" class="form-control" id="job_no"
+                                    formControlName="job_no" value="" placeholder="Enter Job No" required>
+                            </div>
+                            <br>
+
+                            <div class="col-md-6">
+                                <label for="order_id">Order ID:</label>
+                                <input type="text" name="order_id" class="form-control" id="order_id"
+                                    formControlName="order_id" value="" placeholder="Enter Order Id" required>
+                            </div>
+                            <br>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="spoke_person_id">Select Spoke Person :</label>
+                                <select formControlName="spoke_person_id">
+                                    <option *ngFor="let emp of Allspokeperson" [value]="emp.spoke_person_id">{{
+                                        emp.spoke_person_name }}
+                                    </option>
+                                </select>
+
+                            </div>
+                            <br>
+                            <div class="col-md-6">
+                                <label for="job_type_id">Select Job Type:</label>
+                                <select formControlName="job_type_id">
+                                    <option *ngFor="let emp of Alljobtype" [value]="emp.job_type_id">{{
+                                        emp.job_type_name }}
+                                    </option>
+                                </select>
+
+                            </div>
+                            <br>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="job_sub_type_id">Select Job Sub Type:</label>
+                                <select formControlName="job_sub_type_id">
+                                    <option *ngFor="let emp of Alljobsubtype" [value]="emp.job_sub_type_id">{{
+                                        emp.job_sub_type_name }}
+                                    </option>
+                                </select>
+                            </div>
+                            <br>
+                            <div class="col-md-6">
+                                <label for="engg_emp_id">Select Employee:</label>
+                                <select formControlName="engg_emp_id">
+                                    <option *ngFor="let emp of Alleng" [value]="emp.emp_id">{{ emp.emp_name }}</option>
+                                </select>
+                            </div><br>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="qc_emp_id">Select QC:</label>
+                                <select formControlName="qc_emp_id">
+                                    <option *ngFor="let emp of Allqc" [value]="emp.emp_id">{{ emp.emp_name }}
+                                    </option>
+                                </select>
+                            </div>
+                            <br>
+
+                            <div class="col-md-6">
+                                <label for="co_emp_id">Select Cordinator:</label>
+                                <select formControlName="co_emp_id">
+                                    <option *ngFor="let emp of Allco" [value]="emp.emp_id">{{ emp.emp_name }}
+                                    </option>
+                                </select>
+                            </div>
+                            <br>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="drafting_hrs">Drafting Hrs:</label>
+                                <input type="text" name="drafting_hrs" class="form-control" id="drafting_hrs"
+                                    formControlName="drafting_hrs" value="" placeholder="Enter Drafting Hrs " required>
+                            </div>
+                            <br>
+                            <div class="col-md-6">
+                                <label for="drafting_min">Drafting Min:</label>
+                                <input type="text" name="drafting_min" class="form-control" id="drafting_min"
+                                    formControlName="drafting_min" value="" placeholder="Enter Employee Drafting Min "
+                                    required>
+                            </div>
+                            <br>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="qc_hrs">Qc Hrs :</label>
+                                <input type="text" name="qc_hrs" class="form-control" id="qc_hrs"
+                                    formControlName="qc_hrs" value="" placeholder="Enter Qc Hrs" required>
+                            </div>
+                            <br>
+                            <div class="col-md-6">
+                                <label for="qc_min">Qc Min:</label>
+                                <input type="text" name="qc_min" class="form-control" id="qc_min"
+                                    formControlName="qc_min" value="" placeholder="Enter Qc Min" required>
+                            </div>
+                            <br>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="engg_total_time">Engineer Total Time:</label>
+                                <input type="text" name="engg_total_time" class="form-control" id="engg_total_time"
+                                    formControlName="engg_total_time" value="" placeholder="Enter Engineer Total Time "
+                                    required>
+                            </div>
+                            <br>
+                            <div class="col-md-6">
+                                <label for="qc_total_time"> Qc Total Time:</label>
+                                <input type="text" name="qc_total_time" class="form-control" id="qc_total_time"
+                                    formControlName="qc_total_time" value="" placeholder="Enter Emp Qc Total Time "
+                                    required>
+                            </div>
+                            <br>
+                        </div>
+
+                        <div class="col-md-12">
+                            <label for="qc_performance_factor">Qc Performance Factor :</label>
+                            <input type="text" name="qc_performance_factor" class="form-control"
+                                id="qc_performance_factor" formControlName="qc_performance_factor" value=""
+                                placeholder="Enter Qc Performance Factor" required>
+                        </div>
+                        <br>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="created_by">Created By:</label>
+                                <input type="text" name="created_by" class="form-control" id="created_by"
+                                    formControlName="created_by" value="" placeholder="Enter Created By" required>
+                            </div>
+                            <br>
+                            <div class="col-md-6">
+                                <label for="created_by_emp_id">Created By Admin Id :</label>
+                                <select formControlName="created_by_emp_id">
+                                    <option *ngFor="let emp of Alladmin" [value]="emp.id">{{ emp.Name }}
+                                    </option>
+                                </select>
+                            </div>
+                            <br>
+                        </div>
+
+                        <div class="col-md-12">
+                            <label for="engg_comment">Engineer Comment:</label>
+                            <input type="text" name="engg_comment" class="form-control" id="engg_comment"
+                                formControlName="engg_comment" value="" placeholder="Enter Engineer Comment" required>
+                        </div>
+                        <br>
+
+                        <div class="col-md-12">
+                            <label for="status">Status :</label>
+                            <select class="form-control" id="status" formControlName="status" required>
+                                <option value="Created">Created</option>
+                                <option value="Ordered">Ordered</option>
+                                <option value="Completed"> Completed </option>
+                                <option value="Deleted"> Deleted </option>
+                            </select>
+                        </div>
+                        <br>
+                        <button type="submit" class="btn btn-success">Add Job</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+
+    <!-- Modal for Edit Category -->
+    <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Job Data </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="Editjobform" (submit)="updatejobs()">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="job_no">JOb No:</label>
+                                <input type="text" name="job_no" class="form-control" id="job_no"
+                                    formControlName="job_no" value="" placeholder="Enter job no" required>
+                            </div>
+                            <br>
+                            <div class="col-md-6">
+                                <label for="order_id">Order ID:</label>
+                                <input type="text" name="order_id" class="form-control" id="order_id"
+                                    formControlName="order_id" value="" placeholder="Enter Employee name" required>
+                            </div>
+                            <br>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="spoke_person_id">Select Spoke Person :</label>
+                                <select formControlName="spoke_person_id">
+                                    <option *ngFor="let emp of Allspokeperson" [value]="emp.spoke_person_id">{{
+                                        emp.spoke_person_name }}
+                                    </option>
+                                </select>
+                            </div>
+                            <br>
+                            <div class="col-md-6">
+                                <label for="job_type_id">Select Job Type:</label>
+                                <select formControlName="job_type_id">
+                                    <option *ngFor="let emp of Alljobtype" [value]="emp.job_type_id">{{
+                                        emp.job_type_name }}
+                                    </option>
+                                </select>
+                            </div>
+                            <br>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="job_sub_type_id">Select Job Sub Type:</label>
+                                <select formControlName="job_sub_type_id">
+                                    <option *ngFor="let emp of Alljobsubtype" [value]="emp.job_sub_type_id">{{
+                                        emp.job_sub_type_name }}
+                                    </option>
+                                </select>
+                            </div>
+                            <br>
+
+                            <div class="col-md-6">
+                                <label for="engg_emp_id">Select Employee:</label>
+                                <select formControlName="engg_emp_id">
+                                    <option *ngFor="let emp of Alleng" [value]="emp.emp_id">{{ emp.emp_name }}
+                                    </option>
+                                </select>
+                            </div><br>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="qc_emp_id">Select QC:</label>
+                                <select formControlName="qc_emp_id">
+                                    <option *ngFor="let emp of Allqc" [value]="emp.emp_id">{{ emp.emp_name }}
+                                    </option>
+                                </select>
+                            </div>
+                            <br>
+
+                            <div class="col-md-6">
+                                <label for="co_emp_id">Select Cordinator:</label>
+                                <select formControlName="co_emp_id">
+                                    <option *ngFor="let emp of Allco" [value]="emp.emp_id">{{ emp.emp_name }}
+                                    </option>
+                                </select>
+                            </div>
+                            <br>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="drafting_hrs">Drafting Hrs:</label>
+                                <input type="text" name="drafting_hrs" class="form-control" id="drafting_hrs"
+                                    formControlName="drafting_hrs" value="" placeholder="Enterdrafting_hrs " required>
+                            </div>
+                            <br>
+                            <div class="col-md-6">
+                                <label for="drafting_min">Drafting Min:</label>
+                                <input type="text" name="drafting_min" class="form-control" id="drafting_min"
+                                    formControlName="drafting_min" value="" placeholder="Enter Emp drafting_min "
+                                    required>
+                            </div>
+                            <br>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="qc_hrs">Qc Hrs :</label>
+                                <input type="text" name="qc_hrs" class="form-control" id="qc_hrs"
+                                    formControlName="qc_hrs" value="" placeholder="Enter qc_hrs" required>
+                            </div>
+                            <br>
+                            <div class="col-md-6">
+                                <label for="qc_min">Qc Min:</label>
+                                <input type="text" name="qc_min" class="form-control" id="qc_min"
+                                    formControlName="qc_min" value="" placeholder="Enter Emp code" required>
+                            </div>
+                            <br>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="extra_drafting_hrs">Extra Drafting Hrs:</label>
+                                <input type="text" name="extra_drafting_hrs" class="form-control"
+                                    id="extra_drafting_hrs" formControlName="extra_drafting_hrs" value=""
+                                    placeholder="Enter extra_drafting_hrs" required>
+                            </div>
+                            <br>
+                            <div class="col-md-6">
+                                <label for="extra_drafting_min">Extra Drafting Hrs :</label>
+                                <input type="text" name="extra_drafting_min" class="form-control"
+                                    id="extra_drafting_min" formControlName="extra_drafting_min" value=""
+                                    placeholder="Enter extra_drafting_min " required>
+                            </div>
+                            <br>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="qc_repairing_hrs">QC Repairing Hrs:</label>
+                                <input type="text" name="qc_repairing_hrs" class="form-control" id="qc_repairing_hrs"
+                                    formControlName="qc_repairing_hrs" value="" placeholder="Enter Emp code" required>
+                            </div>
+                            <br>
+                            <div class="col-md-6">
+                                <label for="qc_repairing_min">QC Repairing Min:</label>
+                                <input type="text" name="qc_repairing_min" class="form-control" id="qc_repairing_min"
+                                    formControlName="qc_repairing_min" value="" placeholder="Enter Employee name"
+                                    required>
+                            </div>
+                            <br>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="engg_total_time">Engineer Total Time:</label>
+                                <input type="text" name="engg_total_time" class="form-control" id="engg_total_time"
+                                    formControlName="engg_total_time" value="" placeholder="Enter Emp Email " required>
+                            </div>
+                            <br>
+                            <div class="col-md-6">
+                                <label for="qc_total_time"> QC Total Time:</label>
+                                <input type="text" name="qc_total_time" class="form-control" id="qc_total_time"
+                                    formControlName="qc_total_time" value="" placeholder="Enter Emp qc_total_time "
+                                    required>
+                            </div>
+                            <br>
+                        </div>
+
+                        <div class="col-md-12">
+                            <label for="qc_performance_factor">Qc Performance Factor :</label>
+                            <input type="text" name="qc_performance_factor" class="form-control"
+                                id="qc_performance_factor" formControlName="qc_performance_factor" value=""
+                                placeholder="Enter qc_performance_factor" required>
+                        </div>
+                        <br>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="created_by">Created By:</label>
+                                <input type="text" name="created_by" class="form-control" id="created_by"
+                                    formControlName="created_by" value="" placeholder="Enter Created_by" required>
+                            </div>
+                            <br>
+                            <div class="col-md-6">
+                                <label for="created_by_emp_id">Created By Admin Id :</label>
+                                <select formControlName="created_by_emp_id">
+                                    <option *ngFor="let a of Alladmin" [value]="a.id">{{ a.Name }}
+                                    </option>
+                                </select>
+                            </div>
+                            <br>
+                        </div>
+
+                        <div class="col-md-12">
+                            <label for="engg_comment">Engineer Comment:</label>
+                            <input type="text" name="engg_comment" class="form-control" id="engg_comment"
+                                formControlName="engg_comment" value="" placeholder="Enter Emp engg_comment " required>
+                        </div>
+                        <br>
+                        <div class="col-md-12">
+                            <label for="status">Job Status :</label>
+                            <select class="form-control" id="status" formControlName="status" required>
+                                <option value="Created">Created</option>
+                                <option value="Ordered">Ordered</option>
+                                <option value="Completed"> Completed </option>
+                                <option value="Deleted"> Deleted </option>
+                            </select>
+                        </div>
+                        <br>
+                        <div class="col-md-12">
+                            <label for="engg_status">Engineer Status:</label>
+                            <input type="text" name="engg_status" class="form-control" id="engg_status"
+                                formControlName="engg_status" value="" placeholder="Enter Engg_status " required>
+                        </div>
+                        <br>
+                        <div class="col-md-12">
+                            <label for="qc_status">Qc Status:</label>
+                            <input type="text" name="qc_status" class="form-control" id="qc_status"
+                                formControlName="qc_status" value="" placeholder="Enter Emp qc_status " required>
+                        </div>
+                        <br>
+                        <button type="submit" class="btn btn-success">Update Job</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

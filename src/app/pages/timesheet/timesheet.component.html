@@ -1,0 +1,236 @@
+<div class="container-fluid">
+    <br><br>
+
+    <div class="text-center"> <br>
+        <h1>TimeSheet</h1>
+    </div>
+    <br>
+    <div class="row">
+        <br><br>
+        <div class="col-md-4">
+            <div class="text-center">
+                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    ADD New Timesheet <i class="fa-regular fa-plus"></i>
+                </button>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="">
+                <p><b>Find Timesheet By a Employee Name</b></p>
+                <label for="emp_id">
+                    <select name="emp_id" id="emp_id" [(ngModel)]="emp_id" class="form-select"
+                        placeholder="Select emp_id" aria-label="Multiple select example">
+                        <option *ngFor="let b of AllEmployee " [value]="b.emp_id">
+                            {{b.emp_name}}</option>
+                    </select>
+                </label>
+                <button style="margin-left: 3%;" class="btn btn-success" (click)="emptimesheet()">Search</button>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <p><b>Find Timesheet By a Date</b></p>
+            <div class="">
+                <input type="date" [(ngModel)]="date" value="date"> <button style="margin-left: 3%;"
+                    class="btn btn-success" (click)="Timesheetbydate()">Search</button>
+            </div>
+        </div>
+    </div>
+    <br><br>
+
+    <br><br>
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead class="table-primary">
+                <tr>
+                    <th scope="col" style="width: 10%;"> <b>Sr.No. </b> </th>
+                    <th scope="col"> <b>Role</b> </th>
+                    <th scope="col"> <b>Emp Name </b> </th>
+                    <th scope="col"> <b>Job_id</b> </th>
+                    <th scope="col"> <b>Job_No</b> </th>
+                    <th scope="col"> <b>Start_time</b> </th>
+                    <th scope="col"> <b>End _time</b> </th>
+                    <th scope="col"> <b>Date</b> </th>
+                    <th scope="col"> <b>Status</b> </th>
+                    <th scope="col"> <b>Comment</b> </th>
+                    <th scope="col"> <b>Edit</b> </th>
+                    <th scope="col"> <b>Delete</b> </th>
+                    <!-- <th scope="col" *ngIf="isAdmin"> <b>Edit Admin</b> </th>
+                    <th scope="col" *ngIf="isAdmin"> <b>Delete Admin</b> </th> -->
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let e of AllTimesheet | paginate:{itemsPerPage: 10, currentPage: pro}  , let i =index">
+                    <td>{{i+1}}</td>
+                    <td>{{e.role}}</td>
+                    <td>{{e.emp_name}}</td>
+                    <td>{{e.job_id}}</td>
+                    <td>{{e.job_no}}</td>
+                    <td>{{e.time_part}}</td>
+                    <td>{{e.endtime_part}}</td>
+                    <td>{{e.date | date}}</td>
+                    <td>{{e.status}}</td>
+                    <td>{{e.comment}}</td>
+                    <td> <button type="button" class="btn btn-info" (click)="edittimesheet(e.timesheet_id)"
+                            data-bs-toggle="modal" data-bs-target="#exampleModal2">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </button></td>
+                    <td><button class="btn btn-danger" type="button" (click)="delete(e['timesheet_id'])"
+                            class="btn btn-danger"><i class="fa-regular fa-trash-can"></i></button></td>
+                </tr>
+                <div class="text-center">
+                    <pagination-controls (pageChange)=" pro = $event "></pagination-controls>
+                </div>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal For ADD Admin -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">ADD New Timesheet </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <form [formGroup]="Addforms" (submit)="Addtimesheet()">
+
+                        <div class="col-md-12">
+                            <!-- <label for="role">role:</label>
+                            <input type="text" name="role" class="form-control" id="role" formControlName="role"
+                                value="" placeholder="Enter role" required> -->
+
+                            <label for="role">Select Role:</label>
+                            <select formControlName="role">
+                                <option *ngFor="let level of Alluserlevel" [value]="level.userlevel_id">{{ level.name }}
+                                </option>
+                            </select>
+                        </div>
+                        <br>
+                        <div class="col-md-12">
+                            <label for="emp_id">Select Employee:</label>
+                            <select formControlName="emp_id">
+                                <option *ngFor="let emp of AllEmployee" [value]="emp.emp_id">{{ emp.emp_name }}
+                                </option>
+                            </select>
+                        </div>
+                        <br>
+                        <div class="col-md-12">
+                            <!-- <label for="job_id">Job_id</label>
+                            <input type="text" name="job_id" class="form-control" id="job_id" formControlName="job_id"
+                                value="" placeholder="Enter Emp job_id " required> -->
+
+                            <label for="job_id">Select Job Id:</label>
+                            <select formControlName="job_id">
+                                <option *ngFor="let emp of Alljobs" [value]="emp.job_id">{{
+                                    emp.job_id }}
+                                </option>
+                            </select>
+                        </div>
+                        <br>
+                        <div class="col-md-12">
+                            <label for="job_id">Select Job No:</label>
+                            <select formControlName="job_id">
+                                <option *ngFor="let emp of Alljobs" [value]="emp.job_id">{{
+                                    emp.job_no }}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-md-12">
+                            <label for="status">Status :</label>
+                            <input type="text" name="status" class="form-control" id="status" formControlName="status"
+                                value="" placeholder="Enter status" required>
+                        </div>
+                        <br>
+                        <div class="col-md-12">
+                            <label for="comment">Comment :</label>
+                            <input type="text" name="comment" class="form-control" id="comment"
+                                formControlName="comment" value="" placeholder="Enter comment" required>
+                        </div>
+                        <br>
+
+                        <button type="submit" class="btn btn-success">ADD Timesheet</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+
+    <!-- Modal for Edit Category -->
+    <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Employees Data </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="Editform" (submit)="UpdateTimesheet()">
+                        <div class="col-md-12">
+                            <!-- <label for="role">role:</label>
+                            <input type="text" name="role" class="form-control" id="role" formControlName="role"
+                                value="" placeholder="Enter role" required> -->
+                            <label for="role">Select Role:</label>
+                            <select formControlName="role">
+                                <option *ngFor="let level of Alluserlevel" [value]="level.userlevel_id">{{ level.name }}
+                                </option>
+                            </select>
+                        </div>
+                        <br>
+                        <div class="col-md-12">
+                            <label for="emp_id">Select Employee:</label>
+                            <select formControlName="emp_id">
+                                <option *ngFor="let emp of AllEmployee" [value]="emp.emp_id">{{ emp.emp_name }}
+                                </option>
+                            </select>
+                            <!-- <label for="emp_id">Employee ID:</label>
+                            <input type="text" name="emp_id" class="form-control" id="emp_id" formControlName="emp_id"
+                                value="" placeholder="Enter Employee ID" required> -->
+                        </div>
+                        <br>
+                        <div class="col-md-12">
+                            <label for="job_id">Select Job Id:</label>
+                            <select formControlName="job_id">
+                                <option *ngFor="let emp of Alljobs" [value]="emp.job_id">{{
+                                    emp.job_id }}
+                                </option>
+                            </select>
+                            <!-- <label for="job_id">Job_id</label>
+                            <input type="text" name="job_id" class="form-control" id="job_id" formControlName="job_id"
+                                value="" placeholder="Enter Emp job_id " required> -->
+                        </div>
+                        <br>
+                        <div class="col-md-12">
+                            <label for="job_id">Select Job Id:</label>
+                            <select formControlName="job_id">
+                                <option *ngFor="let emp of Alljobs" [value]="emp.job_id">{{
+                                    emp.job_no }}
+                                </option>
+                            </select>
+                            <!-- <label for="job_no">Job_no:</label>
+                            <input type="text" name="job_no" class="form-control" id="job_no" formControlName="job_no"
+                                value="" placeholder="Enter job_no" required> -->
+                        </div>
+
+                        <div class="col-md-12">
+                            <label for="status">Status :</label>
+                            <input type="text" name="status" class="form-control" id="status" formControlName="status"
+                                value="" placeholder="Enter status" required>
+                        </div>
+                        <br>
+                        <div class="col-md-12">
+                            <label for="comment">Comment :</label>
+                            <input type="text" name="comment" class="form-control" id="comment"
+                                formControlName="comment" value="" placeholder="Enter comment" required>
+                        </div>
+                        <br>
+                        <button type="submit" class="btn btn-success">Update timesheet</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

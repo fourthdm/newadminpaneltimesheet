@@ -1,0 +1,74 @@
+<div class="container-fluid">
+    <br><br>
+    <div class="text-center"> <br>
+        <h2>QC Times</h2>
+    </div>
+    <br><br>
+    <div>
+
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead class="table-primary">
+                    <tr>
+                        <th>QC Name</th>
+                        <th>Job ID</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Date_Time</th>
+                        <th>Status</th>
+                        <th>Working Days</th>
+                        <th>Working Time</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let q of Allqctime; let i = index">
+                        <td>{{q.emp_name}}</td>
+                        <td>{{q.job_id}}</td>
+                        <td>{{q.date_part | date}}</td>
+                        <td>{{q.time_part }}</td>
+                        <td>{{q.date_time | date:'medium' }}</td>
+                        <td>{{q.status}}</td>
+                        <td>{{q.working_days}}</td>
+                        <td>{{q.working_time}}</td>
+                        <td><button class="btn btn-danger" (click)="Deleteqctime(q['qc_time_id'])">
+                                <i class="fa-solid fa-trash"></i>
+                            </button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 
+        <form [formGroup]="Addformenggtime" (ngSubmit)="onSubmit()">
+
+            <label for="engg_id">Engg ID</label>
+            <input type="text" name="engg_id" class="form-control" id="engg_id" formControlName="engg_id" value=""
+                placeholder="Enter Engg_Id" required>
+            <br>
+
+            <label for="job_id">job_id</label>
+            <input type="text" name="job_id" class="form-control" id="job_id" formControlName="job_id" value=""
+                placeholder="Enter job_id" required> <br>
+
+            <label for="enggstatus">Status</label>
+            <input type="text" name="enggstatus" class="form-control" id="enggstatus" formControlName="enggstatus"
+                value="" placeholder="Enter Status" required>
+            <br>
+            <label for="working_days">Working Days</label>
+            <input type="text" name="working_days" class="form-control" id="working_days" formControlName="working_days"
+                value="" placeholder="Enter working_days" required>
+
+            <br>
+            <div class="stopwatch">
+                <h2>{{ hours }}:{{ minutes }}:{{ seconds }}</h2>
+                <button type="button" (click)="startTimer()">Start</button>
+                <button type="button" (click)="pauseTimer()">Pause</button>
+                <button type="button" (click)="stopTimer()">Stop</button>
+            </div> <br>
+            <button type="submit">Submit</button>
+        </form> 
+        -->
+    </div>
+    <br><br>
+</div>

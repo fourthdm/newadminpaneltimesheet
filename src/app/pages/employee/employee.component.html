@@ -1,0 +1,191 @@
+<div class="container-fluid">
+    <br> <br>
+    <div class="text-center"><br>
+        <h2>All Employee Data</h2>
+    </div>
+    <br>
+
+    <div class="text-end">
+        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            ADD New Employee <i class="fa-solid fa-user-plus"></i>
+        </button>
+    </div>
+    <br>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">ADD New Employee </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="Addnewemployee" (submit)="Addemp()">
+
+                        <div class="col-md-12">
+                            <label for="emp_code">Emp Code:</label>
+                            <input type="text" name="emp_code" class="form-control" id="emp_code"
+                                formControlName="emp_code" value="" placeholder="Enter Emp code" required>
+                        </div>
+                        <br>
+                        <div class="col-md-12">
+                            <label for="emp_name">Employee Name:</label>
+                            <input type="text" name="emp_name" class="form-control" id="emp_name"
+                                formControlName="emp_name" value="" placeholder="Enter Employee name" required>
+                        </div>
+                        <br>
+                        <div class="col-md-12">
+                            <label for="emp_email">Employee Email:</label>
+                            <input type="text" name="emp_email" class="form-control" id="emp_email"
+                                formControlName="emp_email" value="" placeholder="Enter Emp Email " required>
+                        </div>
+                        <br>
+                        <div class="col-md-12">
+                            <label>Employee Userlevel:</label>
+                            <div *ngFor="let u of Users">
+                                <input type="checkbox" [value]="u.userlevel_id"
+                                    (change)="onCheckboxChange($event, 'userlevel_id')">
+                                {{u.userlevel_id}}. {{ u.name }}
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <label>Employee Team:</label>
+                            <div *ngFor="let t of Teams">
+                                <input type="checkbox" [value]="t.team_id"
+                                    (change)="onCheckboxChange($event, 'team_id')">
+                                {{t.team_id}}. {{ t.TeamName }}
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <label for="status">Status:</label> <br>
+                            <select formControlName="status" id="status" required>
+                                <option value="Active">Active</option>
+                                <option value="Deactive">Deactive</option>
+                            </select>
+                        </div>
+                        <br>
+                        <br>
+                        <button type="submit" class="btn btn-success">ADD Employee</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <button (click)="exportexcel()">Export to Excel</button>
+        <table class="table table-bordered" id="excel-table">
+            <thead class="table-primary">
+                <tr>
+                    <th scope="col"> <b>Sr.No. </b> </th>
+                    <th scope="col"> <b>Emp Code </b> </th>
+                    <th scope="col"> <b>Emp Name </b> </th>
+                    <th scope="col"> <b>Emp Email</b> </th>
+                    <th scope="col"> <b>Password</b> </th>
+                    <th scope="col"> <b>Userlevel</b> </th>
+                    <th scope="col"> <b>Team</b> </th>
+                    <th scope="col"> <b>Status</b> </th>
+                    <th scope="col"> <b>Added_Date</b> </th>
+                    <th scope="col"> <b>Updated_Date</b> </th>
+                    <th scope="col"> <b>Edit Admin</b> </th>
+                    <th scope="col"> <b>Delete Admin</b> </th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr *ngFor="let e of newemployee, let i =index">
+
+                    <td>{{i+1}}</td>
+                    <td>{{e.emp_code}}</td>
+                    <td>{{e.emp_name}}</td>
+                    <td>{{e.emp_email}}</td>
+                    <td>{{e.password}}</td>
+                    <td>{{ getRolesString(e) }}</td>
+                    <td>{{ getTeamsString(e) }}</td>
+                    <td>{{e.status}}</td>
+                    <td>{{e.added_date | date}}</td>
+                    <td>{{e.updated_date | date}}</td>
+                    <td> <button type="button" class="btn btn-info" (click)="onSubmit(e.emp_id)" data-bs-toggle="modal"
+                            data-bs-target="#exampleModal2">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </button></td>
+                    <td><button class="btn btn-danger" type="button" (click)="delete(e['emp_id'])"
+                            class="btn btn-danger"><i class="fa-regular fa-trash-can"></i></button></td>
+                </tr>
+                <div class="text-center">
+                    <!-- <pagination-controls (pageChange)=" pro = $event "></pagination-controls> -->
+                </div>
+            </tbody>
+        </table>
+    </div>
+    <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Employees Data </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="empForm" (ngSubmit)="updateemp();">
+
+                        <div class="col-md-12">
+                            <label for="emp_code">Emp Code:</label>
+                            <input type="text" class="form-control" id="emp_code" formControlName="emp_code" required>
+                        </div>
+
+                        <div class="col-md-12">
+                            <label for="emp_name">Employee Name:</label>
+                            <input type="text" class="form-control" id="emp_name" formControlName="emp_name" required>
+                        </div>
+
+                        <div class="col-md-12">
+                            <label for="emp_email">Employee Email:</label>
+                            <input type="email" class="form-control" id="emp_email" formControlName="emp_email"
+                                required>
+                        </div>
+
+                        <div class="col-md-12">
+                            <label for="password">Employee Password:</label>
+                            <input type="text" class="form-control" id="password" formControlName="password" required>
+                        </div>
+
+                        <div formArrayName="teamRoles" class="col-md-12">
+                            <label>Team Roles:</label>
+                            <div *ngFor="let role of teamRoles.controls; let i = index" [formGroupName]="i"
+                                class="row mb-2">
+                                <div class="col-md-6">
+                                    <label>Team ID:</label>
+                                    <select formControlName="team_id">
+                                        <option *ngFor="let team of Teams" [value]="team.team_id">{{ team.TeamName }}
+                                        </option>
+                                    </select>
+                                    <!-- <input type="number" formControlName="team_id" class="form-control"> -->
+                                </div>
+                                <div class="col-md-6">
+                                    <label>User Level ID:</label>
+                                    <select formControlName="userlevel_id">
+                                        <option *ngFor="let level of Users" [value]="level.userlevel_id">{{
+                                            level.name }}
+                                        </option>
+                                    </select>
+                                    <!-- <input type="number" formControlName="userlevel_id" class="form-control"> -->
+                                </div>
+                            </div>
+                            <button (click)="addTeamRole()">Add Team Role</button>
+                        </div>
+
+                        <div class="col-md-12">
+                            <label for="status">Status:</label>
+                            <select formControlName="status" class="form-select" required>
+                                <option value="Active">Active</option>
+                                <option value="Deactive">Deactive</option>
+                            </select>
+                        </div>
+                        <br><br>
+                        <button type="submit" class="btn btn-success">Update Employee</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

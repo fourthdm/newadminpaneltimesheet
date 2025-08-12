@@ -1,0 +1,266 @@
+<br>
+<div class="container-fluid">
+    <br><br>
+    <div class="text-center">
+        <h2>All Job Type Data</h2>
+    </div>
+    <br>
+    <div class="text-end">
+        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            ADD New JobType <i class="fa-regular fa-plus"></i>
+        </button>
+    </div>
+
+    <br><br>
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead class="table-primary">
+                <tr>
+                    <th scope="col"> <b>Sr.No. </b> </th>
+                    <th scope="col"> <b>Job Type Name </b> </th>
+                    <th scope="col"> <b>Status </b> </th>
+                    <th scope="col"> <b>Edit </b> </th>
+                    <th scope="col"> <b>Delete </b> </th>
+                    <!-- <th scope="col" *ngIf="isAdmin"> <b>Edit Admin</b> </th>
+                    <th scope="col" *ngIf="isAdmin"> <b>Delete Admin</b> </th> -->
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let c of Alljobtype" [ngClass]="{'deactive-row': c.status === 'Deactive'}">
+                    <td>{{c.job_type_id}}</td>
+                    <td>{{c.job_type_name}}</td>
+                    <td>{{c.status}}</td>
+                    <td> <button type="button" class="btn btn-info" (click)="editjobtype(c.job_type_id)"
+                            data-bs-toggle="modal" data-bs-target="#exampleModal2">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </button></td>
+                    <td><button class="btn btn-danger" type="button" (click)="DeleteJobtype(c['job_type_id'])"
+                            class="btn btn-danger"><i class="fa-regular fa-trash-can"></i></button></td>
+                </tr>
+                <div class="text-center">
+                    <!-- <pagination-controls (pageChange)=" pro = $event "></pagination-controls> -->
+                </div>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal For ADD Admin -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">ADD New JobType</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="Addformjobtype" (submit)="AddJobtype()">
+
+                        <div class="col-md-12">
+                            <label for="job_type_name">Job Type Name:</label>
+                            <input type="text" name="job_type_name" class="form-control" id="job_type_name"
+                                formControlName="job_type_name" value="" placeholder="Enter Job type" required>
+                        </div>
+                        <br>
+                        <div class="col-md-12">
+                            <label for="status">Status</label>
+                            <select formControlName="status" id="status" required>
+                                <option value="Active">Active</option>
+                                <option value="Deactive">Deactive</option>
+                            </select>
+                            <!-- <input type="text" name="status" class="form-control" id="status" formControlName="status"
+                                value="" placeholder="Enter status" required> -->
+                        </div>
+                        <br>
+                        <button type="submit" class="btn btn-success">Add JobType</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+
+    <!-- Modal for Edit Category -->
+    <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Edit JobType </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="Editformjobtype" (submit)="Updatejobtype()">
+                        <div class="col-md-12">
+                            <label for="job_type_name">Job Type Name:</label>
+                            <input type="text" name="job_type_name" class="form-control" id="job_type_name"
+                                formControlName="job_type_name" value="" placeholder="Enter Job type" required>
+                        </div>
+                        <br>
+                        <div class="col-md-12">
+                            <label for="status">Status</label>
+                            <select formControlName="status" id="status" required>
+                                <option value="Active">Active</option>
+                                <option value="Deactive">Deactive</option>
+                            </select>
+                            <!-- <input type="text" name="status" class="form-control" id="status" formControlName="status"
+                                value="" placeholder="Enter status" required> -->
+                        </div>
+                        <br>
+                        <button type="submit" class="btn btn-success">Update JobType</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br> <br>
+<div class="container-fluid">
+    <br>
+    <div class="text-center">
+        <h2>All Sub Job Type Data</h2>
+    </div>
+    <br>
+    <div class="">
+        <p><b>Find JobSubTypes By a Job Type</b></p>
+        <label for="job_type_id">Select JOB Type<br>
+            <select name="job_type_id" id="job_type_id" [(ngModel)]="job_type_id" class="form-select"
+                placeholder="Select job_type_id" aria-label="Multiple select example">
+                <option *ngFor="let b of Alljobtype" [value]="b.job_type_id">
+                    {{b.job_type_name}}</option>
+            </select>
+        </label>
+        <button style="margin-left: 3%;" class="btn btn-success" (click)="FindSubtypewithjobtype()">Search</button>
+    </div>
+
+    <div class="text-end">
+        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal3">
+            ADD New Sub Job Type <i class="fa-regular fa-plus"></i>
+        </button>
+    </div>
+
+    <br><br>
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead class="table-primary">
+                <tr>
+                    <th scope="col"> <b>Sr.No. </b> </th>
+                    <th scope="col"> <b>Job Type </b> </th>
+                    <th scope="col"> <b>Job Sub Type </b> </th>
+                    <th scope="col"> <b>Status </b> </th>
+                    <th scope="col"> <b>Edit </b> </th>
+                    <th scope="col"> <b>Delete </b> </th>
+                    <!-- <th scope="col" *ngIf="isAdmin"> <b>Edit Admin</b> </th>
+                    <th scope="col" *ngIf="isAdmin"> <b>Delete Admin</b> </th> -->
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let s of Alljobsubtype , let i =index"
+                    [ngClass]="{'deactive-row': s.status === 'Deactive'}">
+                    <td>{{i+1}}</td>
+                    <td>{{s.job_type_name}}</td>
+                    <td>{{s.job_sub_type_name}}</td>
+                    <td>{{s.status}}</td>
+                    <td> <button type="button" class="btn btn-info" (click)="editSubjobtype(s.job_sub_type_id)"
+                            data-bs-toggle="modal" data-bs-target="#exampleModal4">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </button></td>
+                    <td><button class="btn btn-danger" type="button" (click)="DeleteSubJobtype(s['job_sub_type_id'])"
+                            class="btn btn-danger"><i class="fa-regular fa-trash-can"></i></button></td>
+                </tr>
+                <div class="text-center">
+                    <!-- <pagination-controls (pageChange)=" pro = $event "></pagination-controls> -->
+                </div>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal For ADD Admin -->
+    <div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">ADD New Sub JobType</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="Addformjobsubtype" (submit)="Addjobsubtype()">
+
+                        <div class="col-md-12">
+                            <!-- <label for="job_type_id">Job Type ID:</label>
+                            <input type="text" name="job_type_id" class="form-control" id="job_type_id"
+                                formControlName="job_type_id" value="" placeholder="Enter job type Id" required> -->
+                            <label for="job_type_id">Select JOB Type </label><br>
+                            <select name="job_type_id" id="job_type_id" class="form-select" formControlName="job_type_id" 
+                                placeholder="Select job_type_id" aria-label="Multiple select example">
+                                <option *ngFor="let b of Alljobtype " [value]="b.job_type_id">
+                                    {{b.job_type_name}}</option>
+                            </select>
+
+                        </div>
+                        <br>
+                        <div class="col-md-12">
+                            <label for="job_sub_type_name">Job Sub Type Name:</label>
+                            <input type="text" name="job_sub_type_name" class="form-control" id="job_sub_type_name"
+                                formControlName="job_sub_type_name" value="" placeholder="Enter job subtype name"
+                                required>
+                        </div>
+                        <br>
+                        <div class="col-md-12">
+                            <label for="status">Status</label>
+                            <select formControlName="status" id="status" required>
+                                <option value="Active">Active</option>
+                                <option value="Deactive">Deactive</option>
+                            </select>
+                            <!-- <input type="text" name="status" class="form-control" id="status" formControlName="status"
+                                value="" placeholder="Enter status" required> -->
+                        </div>
+                        <br>
+                        <button type="submit" class="btn btn-success">ADD Sub JobType</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+
+    <!-- Modal for Edit Category -->
+    <div class="modal fade" id="exampleModal4" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">EDIT Sub JobType </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="Editformjobsubtype" (submit)="UpdateSubjobtype()">
+
+                        <div class="col-md-12">
+                            <label for="job_type_id">Job Type ID:</label>
+                            <input type="text" name="job_type_id" class="form-control" id="job_type_id"
+                                formControlName="job_type_id" value="" placeholder="Enter job type Id" required>
+                        </div>
+                        <br>
+                        <div class="col-md-12">
+                            <label for="job_sub_type_name">Job Sub Type Name:</label>
+                            <input type="text" name="job_sub_type_name" class="form-control" id="job_sub_type_name"
+                                formControlName="job_sub_type_name" value="" placeholder="Enter job subtype name"
+                                required>
+                        </div>
+                        <br>
+                        <div class="col-md-12">
+                            <label for="status">Status</label>
+                            <select formControlName="status" id="status" required>
+                                <option value="Active">Active</option>
+                                <option value="Deactive">Deactive</option>
+                            </select>
+                            <!-- <input type="text" name="status" class="form-control" id="status" formControlName="status"
+                                value="" placeholder="Enter status" required> -->
+                        </div>
+                        <br>
+                        <button type="submit" class="btn btn-success">Update SubJobType</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br><br>

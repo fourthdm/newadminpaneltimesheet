@@ -1,0 +1,149 @@
+<br><br><br>
+<div class="container-fluid">
+    <br><br>
+    <div class="text-end">
+        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            ADD New Employee <i class="fa-solid fa-user-plus"></i>
+        </button>
+    </div>
+
+    <!-- Modal For ADD Admin -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">ADD New Employee </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="Addempform" (submit)="Addemp()">
+
+                        <div class="col-md-12">
+                            <label for="emp_code">Emp Code:</label>
+                            <input type="text" name="emp_code" class="form-control" id="emp_code"
+                                formControlName="emp_code" value="" placeholder="Enter Emp code" required>
+                        </div>
+                        <br>
+                        <div class="col-md-12">
+                            <label for="emp_name">Employee Name:</label>
+                            <input type="text" name="emp_name" class="form-control" id="emp_name"
+                                formControlName="emp_name" value="" placeholder="Enter Employee name" required>
+                        </div>
+                        <br>
+                        <div class="col-md-12">
+                            <label for="emp_email">Employee Email:</label>
+                            <input type="text" name="emp_email" class="form-control" id="emp_email"
+                                formControlName="emp_email" value="" placeholder="Enter Emp Email " required>
+                        </div>
+                        <br>
+                        <div class="col-md-12">
+                            <label for="userlevel">Employee Userlevel:</label>
+                            <div *ngFor="let u of userlevel" id="userlevel">
+                                <input type="checkbox" [value]="u.name"
+                                    (change)="onCheckboxChange($event, 'userlevel')">
+                                {{u.userlevel_id}}. {{ u.name }}
+                            </div>
+                        </div>
+                        <br>
+                        <div class="col-md-12">
+                            <label for="team">Employee Team:</label>
+                            <div *ngFor="let t of team" id="team">
+                                <input type="checkbox" [value]="t.TeamName" (change)="onCheckboxChange($event, 'team')">
+                                {{t.team_id}}. {{ t.TeamName }}
+                            </div>
+                        </div>
+                        <br>
+                        <!-- <div class="col-md-12">
+                            <label for="team">Employee Team:</label>
+                            <select formControlName="team" id="team" required>
+                                <option value="Team A">Team A</option>
+                                <option value="Team B">Team B</option>
+                            </select>
+                        </div>
+                        <br> -->
+
+                        <!-- <div class="col-md-12">
+                            <label for="teamId">Team Id:</label>
+                            <input type="text" name="teamId" class="form-control" id="teamId" formControlName="teamId"
+                                value="" placeholder="Enter Team Id" required>
+                        </div>
+                        <br> -->
+
+                        <div class="col-md-12">
+                            <!-- <label for="status">Status :</label>
+                            <input type="text" name="status" class="form-control" id="status" formControlName="status"
+                                value="" placeholder="Enter status" required> -->
+                            <label for="status">Status:</label> <br>
+                            <select formControlName="status" id="status" required>
+                                <option value="Active">Active</option>
+                                <option value="Deactive">Deactive</option>
+                            </select>
+                        </div>
+                        <br>
+                        <br>
+                        <button type="submit" class="btn btn-success">ADD Employee</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+
+    <div class="text-center" *ngIf="AllTeamData.length == 0">
+        <h1>No Member in Team</h1>
+    </div>
+
+    <div class="text-center" *ngIf="AllTeamData.length > 0">
+        <h1>Our Team Member</h1>
+    </div>
+
+    <div class="table-responsive" *ngIf="AllTeamData.length > 0">
+        <table class="table table-bordered">
+            <thead class="table-primary">
+                <tr>
+                    <th scope="col"> <b>Sr.No. </b> </th>
+                    <th scope="col"> <b>Emp Code </b> </th>
+                    <th scope="col"> <b>Emp Name </b> </th>
+                    <th scope="col"> <b>Emp Email</b> </th>
+                    <th scope="col"> <b>Password</b> </th>
+                    <th scope="col"> <b>Userlevel</b> </th>
+                    <th scope="col"> <b>Team</b> </th>
+                    <th scope="col"> <b>Status</b> </th>
+                    <th scope="col"> <b>Added_Date</b> </th>
+                    <th scope="col"> <b>Updated_Date</b> </th>
+                    <!-- <th scope="col"> <b>Edit Emp</b> </th>
+                    <th scope="col"> <b>Delete Emp</b> </th> -->
+                    <!-- <th scope="col" *ngIf="isAdmin"> <b>Edit Admin</b> </th>
+                        <th scope="col" *ngIf="isAdmin"> <b>Delete Admin</b> </th> -->
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let e of AllTeamData , let i =index">
+                    <td>{{i+1}}</td>
+                    <td>{{e.emp_code}}</td>
+                    <td>{{e.emp_name}}</td>
+                    <td>{{e.emp_email}}</td>
+                    <td>{{e.password}}</td>
+                    <td>{{e.name}}</td>
+                    <td>{{e.TeamName}}</td>
+                    <!-- <td>{{e.manager}}</td>
+                        <td>{{e.co}}</td>
+                        <td>{{e.qc}}</td>
+                        <td>{{e.engg}}</td> -->
+                    <td>{{e.status}}</td>
+                    <td>{{e.added_date | date}}</td>
+                    <td>{{e.updated_date | date}}</td>
+                    <!-- <td> <button type="button" class="btn btn-info" (click)="Editemp(e.emp_id)" data-bs-toggle="modal"
+                            data-bs-target="#exampleModal2">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </button></td>
+                    <td><button class="btn btn-danger" type="button" (click)="delete(e['emp_id'])"
+                            class="btn btn-danger"><i class="fa-regular fa-trash-can"></i></button></td> -->
+                </tr>
+                <div class="text-center">
+                    <!-- <pagination-controls (pageChange)=" pro = $event "></pagination-controls> -->
+                </div>
+            </tbody>
+        </table>
+    </div>
+</div>

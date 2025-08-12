@@ -1,0 +1,11 @@
+a {
+    color: black;
+}
+
+select{
+    width: 100%;
+}
+
+a:hover {
+    text-decoration: 3px rgb(0, 94, 255) underline;
+}

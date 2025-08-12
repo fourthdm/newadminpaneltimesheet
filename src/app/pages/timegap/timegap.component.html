@@ -1,0 +1,93 @@
+<br><br>
+<div class="container">
+    <br>
+    <div class="text-center">
+        <h2>All Timegap Data</h2>
+    </div>
+    <br>
+    <div class="text-end">
+        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            ADD Timegap <i class="fa-regular fa-plus"></i>
+        </button>
+    </div>
+
+    <br><br>
+    <div class="container">
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead class="table-primary">
+                    <tr>
+                        <th scope="col" style="width: 10%;"> <b>Sr.No. </b> </th>
+                        <th scope="col"> <b>Val </b> </th>
+                        <th scope="col"> <b>Edit Timegap</b> </th>
+                        <th scope="col"> <b>Delete Timegap</b> </th>
+                        <!-- <th scope="col" *ngIf="isAdmin"> <b>Edit Admin</b> </th>
+                    <th scope="col" *ngIf="isAdmin"> <b>Delete Admin</b> </th> -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let e of Alltimegap | paginate :{ itemsPerPage: 10, currentPage: pro}, let i =index">
+                        <td>{{i+1}}</td>
+                        <td>{{e.val}}</td>
+                        <td> <button type="button" class="btn btn-info" (click)="Edittimegap(e.timegap_id)"
+                                data-bs-toggle="modal" data-bs-target="#exampleModal2">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </button></td>
+                        <td><button class="btn btn-danger" type="button" (click)="Deletetimegap(e['timegap_id'])"
+                                class="btn btn-danger"><i class="fa-regular fa-trash-can"></i></button></td>
+                    </tr>
+                    <div class="text-center">
+                        <pagination-controls (pageChange)=" pro = $event "></pagination-controls>
+                    </div>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Modal For ADD Admin -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">ADD New Employee </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="timegapform" (submit)="Addtimegap()">
+                        <div class="col-md-12">
+                            <label for="val">Val:</label>
+                            <input type="text" name="val" class="form-control" id="val" formControlName="val" value=""
+                                placeholder="Enter Emp code" required>
+                        </div>
+                        <br>
+                        <button type="submit" class="btn btn-success">ADD Timegap</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+
+    <!-- Modal for Edit Category -->
+    <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Timegap Data </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="Edittimegapform" (submit)="Updatetimegap()">
+                        <div class="col-md-12">
+                            <label for="val">Emp code:</label>
+                            <input type="text" name="val" class="form-control" id="val" formControlName="val" value=""
+                                placeholder="Enter val" required>
+                        </div>
+                        <br>
+                        <button type="submit" class="btn btn-success">Update Timegap</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

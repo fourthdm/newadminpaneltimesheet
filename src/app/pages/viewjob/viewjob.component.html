@@ -1,0 +1,150 @@
+<div class="container-fluid">
+    <br><br><br>
+    <div class="text-center">
+        <h3>Jobs Details</h3>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card" *ngFor="let j of Alljobs, let i=index">
+                <div class="card-header">
+                    <h3 class="card-title">Details of Job No :- {{j.job_no}}</h3>
+                    <div class="text-end">
+                        <button class="btn btn-success btn-lg" (click)="updateTime(j.job_id)">Update Job Time</button>
+                    </div>
+                </div>
+                <br>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <table class="table  table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <td>Job No. :</td>
+                                        <td> {{j.job_no}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Order Id :</td>
+                                        <td> {{j.order_id}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Job Type : </td>
+                                        <td> {{j.job_type_name}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Job Sub Type :</td>
+                                        <td>{{j.job_sub_type_name}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Spoke Person Name : </td>
+                                        <td>{{j.spoke_person_name}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Engineer Name :</td>
+                                        <td>{{j.engg_name}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>QC Name : </td>
+                                        <td>{{j.qc_name}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Cordinator Name : </td>
+                                        <td>{{j.co_name}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Qc Performance Factor : </td>
+                                        <td>{{j.qc_performance_factor}}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Created By : </td>
+                                        <td>{{j.created_by}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Created By Admin Name :</td>
+                                        <td> {{j.created_by_name}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Engineer Comment : </td>
+                                        <td>{{j.engg_comment}}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Status : </td>
+                                        <td> {{j.status}}</td>
+                                    </tr>
+
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="col-md-6">
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <td>Created Date : </td>
+                                        <td>{{j.date_part | date}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Time : </td>
+                                        <td>{{j.time_part}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Drafting Hrs :</td>
+                                        <td>{{j.drafting_hrs}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Drafting Min :</td>
+                                        <td>{{j.drafting_min}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Qc Hrs :</td>
+                                        <td>{{j.qc_hrs}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Qc Min :</td>
+                                        <td> {{j.qc_min}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Extra Drafting Hrs :</td>
+                                        <td> {{j.extra_drafting_hrs}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Extra Drafting Min :</td>
+                                        <td>{{j.extra_drafting_min}}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Qc Repairing Hrs :</td>
+                                        <td>{{j.qc_repairing_hrs}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Qc Repairing Min : </td>
+                                        <td> {{j.qc_repairing_min}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Total Time for Engineer : </td>
+                                        <td>{{j.engg_total_time}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Total Time for Qc :</td>
+                                        <td>{{j.qc_total_time}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Engineer Status : </td>
+                                        <td>{{j.engg_status}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Qc Status : </td>
+                                        <td>{{j.qc_status}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

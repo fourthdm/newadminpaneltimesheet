@@ -1,0 +1,149 @@
+<div class="container-fluid">
+    <br><br> <br><br>
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        Add a TeamRole.
+    </button>
+    <br><br>
+
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead class="table-primary">
+                <tr>
+                    <th scope="col"> <b>Sr.No. </b> </th>
+                    <th scope="col"> <b>ID.No. </b> </th>
+                    <th scope="col"> <b>Emp Code </b> </th>
+                    <th scope="col"> <b>Emp Name </b> </th>
+                    <th scope="col"> <b>Emp Email</b> </th>
+                    <!-- <th scope="col"> <b>Password</b> </th> -->
+                    <th scope="col"> <b>Userlevel</b> </th>
+                    <th scope="col"> <b>Team</b> </th>
+                    <th scope="col"> <b>Status</b> </th>
+                    <th scope="col"> <b>Added_Date</b> </th>
+                    <th scope="col"> <b>Updated_Date</b> </th>
+                    <th scope="col"> <b>Edit Admin</b> </th>
+                    <th scope="col"> <b>Delete Admin</b> </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let e of Alldata , let i =index">
+                    <td> {{i+1}} </td>
+                    <td>{{e.id}}</td>
+                    <td>{{e.emp_code}}</td>
+                    <td>{{e.emp_name}}</td>
+                    <td>{{e.emp_email}}</td>
+                    <!-- <td>{{e.password}}</td> -->
+                    <td>{{e.name}}</td>
+                    <td>{{e.TeamName}}</td>
+                    <td>{{e.status}}</td>
+                    <td>{{e.added_date | date}}</td>
+                    <td>{{e.updated_date | date}}</td>
+                    <td> <button type="button" class="btn btn-info" (click)="editTeamrole(e.id)" data-bs-toggle="modal"
+                            data-bs-target="#exampleModalupdate">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </button></td>
+                    <td><button class="btn btn-danger" (click)="DeleteTeamrole(e['id'])">
+                            <i class="fa-solid fa-trash"></i>
+                        </button></td>
+                </tr>
+
+                <!-- <tr *ngFor="let e of Alldata , let i =index">
+                    <td>{{e.emp_name}}</td>
+                    <td>{{e.name}}</td>
+                    <td>{{e.TeamName}}</td>
+                    <td> <button type="button" class="btn btn-info" data-bs-toggle="modal"
+                            data-bs-target="#exampleModalupdate" (click)="editTeamrole(e.id)">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </button></td>
+                    <td><button class="btn btn-danger" (click)="DeleteTeamrole(e.id)">
+                            <i class="fa-solid fa-trash"></i>
+                        </button></td>
+                </tr>
+                <div class="text-center">
+                    <pagination-controls (pageChange)=" pro = $event "></pagination-controls>
+                </div> -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="undefined">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                    <button type="button" class="btn-close`" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="Addform" (ngSubmit)="Addteamrole()">
+
+                        <div>
+                            <label for="emp_id">Select Employee:</label>
+                            <select formControlName="emp_id">
+                                <option *ngFor="let emp of AllEmployee" [value]="emp.emp_id">{{ emp.emp_name }}</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="team_id">Select Team:</label>
+                            <select formControlName="team_id">
+                                <option *ngFor="let team of Allteam" [value]="team.team_id">{{ team.TeamName }}</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="userlevel_id">Select User Level:</label>
+                            <select formControlName="userlevel_id" id="userlevel_id">
+                                <option *ngFor="let level of Alluserlevel" [value]="level.userlevel_id">{{ level.name }}
+                                </option>
+                            </select>
+                        </div>
+
+                        <button type="submit" [disabled]="Addform.invalid">Add Role</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalupdate" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="undefined">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Update Team Role</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="Editform" (ngSubmit)="updateTeamrole()">
+
+                        <div>
+                            <label for="emp_id">Select Employee:</label>
+                            <select formControlName="emp_id">
+                                <option *ngFor="let emp of AllEmployee" [value]="emp.emp_id">{{ emp.emp_name }}</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="team_id">Select Team:</label>
+                            <select formControlName="team_id">
+                                <option *ngFor="let team of Allteam" [value]="team.team_id">{{ team.TeamName }}</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="userlevel_id">Select User Level:</label>
+                            <select formControlName="userlevel_id" id="userlevel_id">
+                                <option *ngFor="let level of Alluserlevel" [value]="level.userlevel_id">{{ level.name }}
+                                </option>
+                            </select>
+                        </div>
+
+                        <button type="submit">Update TeamRole</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
